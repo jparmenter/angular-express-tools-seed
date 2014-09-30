@@ -30,9 +30,29 @@ module.exports = function (grunt) {
     watch: {
       files: ['<%= jshint.server.src %>', '<%= jshint.test.src %>'],
       tasks: ['jshint']
+    },
+    less: {
+      development: {
+        files: {
+          'public/styles/style.css': 'public/styles/less/style.less'
+        }
+      },
+      production: {
+        options: {
+          paths: ['assets/css'],
+          cleancss: true,
+          modifyVars: {
+            imgPath: 'http://mycdn.com/path/to/images',
+            bgColor: 'red'
+          }
+        },
+        files: {
+          'path/to/result.css': 'path/to/source.less'
+        }
+      }
     }
   });
 
   grunt.registerTask('test', ['jshint']);
-  grunt.registerTask('default', ['test']);
+  grunt.registerTask('default', ['less:development']);
 };
